@@ -1,15 +1,20 @@
 #!/bin/sh
 
-# Verifica se as variáveis de ambiente essenciais foram definidas
+echo "Iniciando servidor..."
+python3 /app.py &
+
+
+sleep 5
+
+
 if [ -z "$VIDEO_URL" ] || [ -z "$RTMP_URL" ] || [ -z "$STREAM_KEY" ]; then
   echo "Erro: As variáveis de ambiente VIDEO_URL, RTMP_URL e STREAM_KEY devem ser definidas."
   exit 1
 fi
 
-echo "-> Iniciando a transmissão para o servidor RTMP..."
-echo "-> Fonte do vídeo: $VIDEO_URL"
+echo "Iniciando FFmpeg..."
 
-# Comando do FFmpeg que roda em loop infinito
+
 ffmpeg -re -stream_loop -1 \
 -i "$VIDEO_URL" \
 -c:v copy \
